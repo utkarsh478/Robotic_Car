@@ -1,0 +1,17 @@
+# Pick a standing cylinder top-down. SPEC §7, §11.4 (grasp tool0 at top - 0.025 m, DC-20).
+geometry_msgs/PoseStamped object_pose   # cylinder axis point at mid-height; frame: odom
+float32 object_diameter                 # 0.05
+float32 object_height                   # 0.15
+---
+uint8 NONE=0
+uint8 UNREACHABLE=1
+uint8 PLANNING_FAILED=2
+uint8 EXECUTION_FAILED=3
+uint8 GRASP_NOT_DETECTED=4
+uint8 OBJECT_LOST=5
+uint8 TIMEOUT=6
+bool success
+uint8 error_code
+string message
+---
+string stage                            # "open", "pregrasp", "descend", "close", "verify", "lift", "transport"

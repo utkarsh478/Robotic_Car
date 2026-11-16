@@ -1,0 +1,37 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from my_robot_interfaces/action/PlaceObject.action
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+
+module my_robot_interfaces {
+  module action {
+    @verbatim (language="comment", text=
+      "Place the held object top-down. SPEC §7, §11.6.")
+    struct PlaceObject_Goal {
+      @verbatim (language="comment", text=
+        "desired object centre (axis mid-height) when released; frame: odom")
+      geometry_msgs::msg::PoseStamped place_pose;
+    };
+    module PlaceObject_Result_Constants {
+      const uint8 NONE = 0;
+      const uint8 UNREACHABLE = 1;
+      const uint8 PLANNING_FAILED = 2;
+      const uint8 EXECUTION_FAILED = 3;
+      const uint8 RELEASE_NOT_CONFIRMED = 4;
+      const uint8 TIMEOUT = 6;
+    };
+    struct PlaceObject_Result {
+      boolean success;
+
+      uint8 error_code;
+
+      string message;
+    };
+    struct PlaceObject_Feedback {
+      @verbatim (language="comment", text=
+        "\"preplace\", \"descend\", \"release\", \"verify\", \"retract\"")
+      string stage;
+    };
+  };
+};

@@ -1,0 +1,30 @@
+[0.506s] Invoking command in '/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception': AMENT_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces LD_LIBRARY_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/python3.10/site-packages:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/build --no-deps symlink_data
+[0.655s] running develop
+[0.749s] running egg_info
+[0.749s] creating my_robot_perception.egg-info
+[0.750s] writing my_robot_perception.egg-info/PKG-INFO
+[0.750s] writing dependency_links to my_robot_perception.egg-info/dependency_links.txt
+[0.750s] writing entry points to my_robot_perception.egg-info/entry_points.txt
+[0.750s] writing requirements to my_robot_perception.egg-info/requires.txt
+[0.750s] writing top-level names to my_robot_perception.egg-info/top_level.txt
+[0.750s] writing manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+[0.751s] reading manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+[0.751s] writing manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+[0.752s] running build_ext
+[0.752s] Creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/python3.10/site-packages/my-robot-perception.egg-link (link to .)
+[0.753s] Installing box_detector script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+[0.753s] Installing perception_node script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+[0.753s] Installing target_detector script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+[0.753s] 
+[0.753s] Installed /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception
+[0.753s] running symlink_data
+[0.753s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index
+[0.753s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index
+[0.753s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index/packages
+[0.754s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/resource/my_robot_perception -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index/packages
+[0.754s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/package.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception
+[0.754s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/launch
+[0.754s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/launch/perception.launch.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/launch
+[0.754s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/config
+[0.754s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/config/perception_params.yaml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/config
+[0.774s] Invoked command in '/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception' returned '0': AMENT_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces LD_LIBRARY_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/python3.10/site-packages:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/build --no-deps symlink_data

@@ -1,0 +1,166 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-fec01ed414f6e1ece608.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"build" : "gtest",
+					"jsonFile" : "directory-gtest-a2408fe1a73b92c5e636.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "/opt/ros/humble/src/gtest_vendor",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "my_robot_manipulation",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "gtest",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "arm_ik::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-arm_ik-7c7d6cc2b35dba60b57f.json",
+					"name" : "arm_ik",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "gtest::@0af4add9fe94340e763e",
+					"jsonFile" : "target-gtest-bf2680cf05bd267d6929.json",
+					"name" : "gtest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "gtest_main::@0af4add9fe94340e763e",
+					"jsonFile" : "target-gtest_main-7368ba9c6034c059234a.json",
+					"name" : "gtest_main",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ik_cli::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ik_cli-7de9189e935aae9e8694.json",
+					"name" : "ik_cli",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "my_robot_manipulation_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-my_robot_manipulation_uninstall-a96d0f35e6da1fbd3eb0.json",
+					"name" : "my_robot_manipulation_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pick_place_server::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pick_place_server-6792787409b4bedd7f74.json",
+					"name" : "pick_place_server",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_arm_ik::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_arm_ik-de779c6986498469b3ee.json",
+					"name" : "test_arm_ik",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_grasp_logic::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_grasp_logic-e19d7700d1b74cfcb7ef.json",
+					"name" : "test_grasp_logic",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-b90d97c2ed111d2747c0.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_manipulation",
+		"source" : "/home/utkarsh/Robotic_car/Robotic_Car/ros2_ws/src/my_robot_manipulation"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,1 @@
+controller_manager:diff_drive_controller:gz_ros2_control:joint_state_broadcaster:joint_trajectory_controller:my_robot_description:nav_msgs:rclpy:robot_state_publisher:ros_gz_bridge:ros_gz_interfaces:ros_gz_sim:rviz2:std_msgs:std_srvs:teleop_twist_keyboard:xacro

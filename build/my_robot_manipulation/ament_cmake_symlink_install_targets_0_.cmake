@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_manipulation/ik_cli" "/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_manipulation/pick_place_server" "TARGETS" "ik_cli" "pick_place_server" "DESTINATION" "lib/my_robot_manipulation")

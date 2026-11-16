@@ -1,0 +1,46 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from my_robot_interfaces/action/PickObject.action
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+
+module my_robot_interfaces {
+  module action {
+    @verbatim (language="comment", text=
+      "Pick a standing cylinder top-down. SPEC §7, §11.4 (grasp tool0 at top - 0.025 m, DC-20).")
+    struct PickObject_Goal {
+      @verbatim (language="comment", text=
+        "cylinder axis point at mid-height; frame: odom")
+      geometry_msgs::msg::PoseStamped object_pose;
+
+      @verbatim (language="comment", text=
+        "0.05")
+      float object_diameter;
+
+      @verbatim (language="comment", text=
+        "0.15")
+      float object_height;
+    };
+    module PickObject_Result_Constants {
+      const uint8 NONE = 0;
+      const uint8 UNREACHABLE = 1;
+      const uint8 PLANNING_FAILED = 2;
+      const uint8 EXECUTION_FAILED = 3;
+      const uint8 GRASP_NOT_DETECTED = 4;
+      const uint8 OBJECT_LOST = 5;
+      const uint8 TIMEOUT = 6;
+    };
+    struct PickObject_Result {
+      boolean success;
+
+      uint8 error_code;
+
+      string message;
+    };
+    struct PickObject_Feedback {
+      @verbatim (language="comment", text=
+        "\"open\", \"pregrasp\", \"descend\", \"close\", \"verify\", \"lift\", \"transport\"")
+      string stage;
+    };
+  };
+};

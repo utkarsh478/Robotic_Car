@@ -1,0 +1,3 @@
+[console_scripts]
+mission_fsm = my_robot_mission.mission_fsm:main
+

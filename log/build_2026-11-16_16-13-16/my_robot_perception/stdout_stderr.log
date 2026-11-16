@@ -1,0 +1,28 @@
+running develop
+running egg_info
+creating my_robot_perception.egg-info
+writing my_robot_perception.egg-info/PKG-INFO
+writing dependency_links to my_robot_perception.egg-info/dependency_links.txt
+writing entry points to my_robot_perception.egg-info/entry_points.txt
+writing requirements to my_robot_perception.egg-info/requires.txt
+writing top-level names to my_robot_perception.egg-info/top_level.txt
+writing manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+reading manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+writing manifest file 'my_robot_perception.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/python3.10/site-packages/my-robot-perception.egg-link (link to .)
+Installing box_detector script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+Installing perception_node script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+Installing target_detector script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/lib/my_robot_perception
+
+Installed /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception
+running symlink_data
+creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index
+creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index
+creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index/packages
+symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/resource/my_robot_perception -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/ament_index/resource_index/packages
+symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/package.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception
+creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/launch
+symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/launch/perception.launch.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/launch
+creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/config
+symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_perception/config/perception_params.yaml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_perception/share/my_robot_perception/config

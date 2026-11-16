@@ -1,0 +1,28 @@
+[0.506s] Invoking command in '/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission': AMENT_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces LD_LIBRARY_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/lib/python3.10/site-packages:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/build --no-deps symlink_data
+[0.653s] running develop
+[0.745s] running egg_info
+[0.745s] creating my_robot_mission.egg-info
+[0.745s] writing my_robot_mission.egg-info/PKG-INFO
+[0.745s] writing dependency_links to my_robot_mission.egg-info/dependency_links.txt
+[0.746s] writing entry points to my_robot_mission.egg-info/entry_points.txt
+[0.746s] writing requirements to my_robot_mission.egg-info/requires.txt
+[0.746s] writing top-level names to my_robot_mission.egg-info/top_level.txt
+[0.746s] writing manifest file 'my_robot_mission.egg-info/SOURCES.txt'
+[0.747s] reading manifest file 'my_robot_mission.egg-info/SOURCES.txt'
+[0.747s] writing manifest file 'my_robot_mission.egg-info/SOURCES.txt'
+[0.748s] running build_ext
+[0.748s] Creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/lib/python3.10/site-packages/my-robot-mission.egg-link (link to .)
+[0.748s] Installing mission_fsm script to /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/lib/my_robot_mission
+[0.748s] 
+[0.749s] Installed /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission
+[0.749s] running symlink_data
+[0.749s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/ament_index
+[0.749s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/ament_index/resource_index
+[0.749s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/ament_index/resource_index/packages
+[0.749s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/resource/my_robot_mission -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/ament_index/resource_index/packages
+[0.749s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/package.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/my_robot_mission
+[0.749s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/my_robot_mission/launch
+[0.749s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/launch/mission.launch.xml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/my_robot_mission/launch
+[0.749s] creating /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/my_robot_mission/config
+[0.749s] symbolically linking /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/config/mission_params.yaml -> /home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/share/my_robot_mission/config
+[0.768s] Invoked command in '/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission' returned '0': AMENT_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces LD_LIBRARY_PATH=/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_mission/lib/python3.10/site-packages:/home/utkarsh/Robotic_car/Robotic_Car/install/my_robot_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_mission/build --no-deps symlink_data

@@ -1,0 +1,5 @@
+[console_scripts]
+box_detector = my_robot_perception.box_detector:main
+perception_node = my_robot_perception.perception_node:main
+target_detector = my_robot_perception.target_detector:main
+

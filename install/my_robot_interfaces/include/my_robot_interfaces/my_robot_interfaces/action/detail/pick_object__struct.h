@@ -1,0 +1,1 @@
+/home/utkarsh/Robotic_car/Robotic_Car/build/my_robot_interfaces/rosidl_generator_c/my_robot_interfaces/action/detail/pick_object__struct.h

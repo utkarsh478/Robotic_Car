@@ -1,0 +1,1 @@
+rclcpp;rclcpp_action;moveit_core;moveit_ros_planning;moveit_ros_planning_interface;moveit_msgs;control_msgs;geometry_msgs;sensor_msgs;shape_msgs;std_msgs;std_srvs;tf2_ros;tf2_geometry_msgs;ros_gz_interfaces;my_robot_interfaces;my_robot_moveit_config;ament_cmake_gtest
