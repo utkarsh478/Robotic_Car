@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- Mission world + robot at home + Nav2/AMCL on the saved map. Phase 4.
+     ros2 launch my_robot_navigation nav_sim.launch.xml
+     Then in RViz: "2D Goal Pose" to send a goal ("2D Pose Estimate" only if AMCL is lost;
+     it already starts at home). Loose objects are off by default: they are not in the map. -->
+<launch>
+  <arg name="headless" default="false"/>
+  <arg name="headless_rendering" default="true"/>
+  <arg name="rviz" default="true"/>
+  <arg name="spawn_objects" default="false"/>
+
+  <include file="$(find-pkg-share my_robot_bringup)/launch/mission_sim.launch.xml">
+    <arg name="headless" value="$(var headless)"/>
+    <arg name="headless_rendering" value="$(var headless_rendering)"/>
+    <arg name="spawn_objects" value="$(var spawn_objects)"/>
+    <arg name="rviz" value="false"/>
+  </include>
+
+  <include file="$(find-pkg-share my_robot_navigation)/launch/navigation.launch.xml"/>
+
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="log" if="$(var rviz)"
+        args="-d $(find-pkg-share my_robot_navigation)/rviz/nav2.rviz">
+    <param name="use_sim_time" value="true"/>
+  </node>
+</launch>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!-- Shared constants, materials and inertia macros. SPEC §3. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.141592653589793"/>
+  <!-- Floor for every diagonal inertia term: tiny values make DART unstable. -->
+  <xacro:property name="I_MIN" value="1e-5"/>
+
+  <material name="body_blue"><color rgba="0.15 0.35 0.75 1.0"/></material>
+  <material name="black"><color rgba="0.05 0.05 0.05 1.0"/></material>
+  <material name="grey"><color rgba="0.55 0.55 0.55 1.0"/></material>
+  <material name="dark_grey"><color rgba="0.25 0.25 0.25 1.0"/></material>
+  <material name="orange"><color rgba="0.95 0.50 0.10 1.0"/></material>
+  <material name="white"><color rgba="0.95 0.95 0.95 1.0"/></material>
+
+  <!-- Solid box of size x*y*z. The *origin block places the centre of mass. -->
+  <xacro:macro name="box_inertia" params="m x y z *origin">
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${m}"/>
+      <inertia ixx="${max(I_MIN, m*(y*y + z*z)/12.0)}" ixy="0.0" ixz="0.0"
+               iyy="${max(I_MIN, m*(x*x + z*z)/12.0)}" iyz="0.0"
+               izz="${max(I_MIN, m*(x*x + y*y)/12.0)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Solid cylinder, axis along the local z of *origin. -->
+  <xacro:macro name="cylinder_inertia" params="m r h *origin">
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${m}"/>
+      <inertia ixx="${max(I_MIN, m*(3*r*r + h*h)/12.0)}" ixy="0.0" ixz="0.0"
+               iyy="${max(I_MIN, m*(3*r*r + h*h)/12.0)}" iyz="0.0"
+               izz="${max(I_MIN, m*r*r/2.0)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Solid sphere. -->
+  <xacro:macro name="sphere_inertia" params="m r *origin">
+    <inertial>
+      <xacro:insert_block name="origin"/>
+      <mass value="${m}"/>
+      <inertia ixx="${max(I_MIN, 2.0*m*r*r/5.0)}" ixy="0.0" ixz="0.0"
+               iyy="${max(I_MIN, 2.0*m*r*r/5.0)}" iyz="0.0"
+               izz="${max(I_MIN, 2.0*m*r*r/5.0)}"/>
+    </inertial>
+  </xacro:macro>
+
+</robot>

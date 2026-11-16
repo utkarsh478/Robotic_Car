@@ -1,0 +1,60 @@
+# pick_place_server (SPEC 11, Phase 9). Lengths in m, times in s.
+pick_place_server:
+  ros__parameters:
+    use_sim_time: true
+    # free-space moves (MoveIt, OMPL RRTConnect)
+    planning_time: 2.0
+    planning_attempts: 2
+    free_velocity_scaling: 0.5
+    free_acceleration_scaling: 0.5
+    # straight vertical moves (analytic IK waypoints + TOTG)
+    line_waypoints: 20
+    line_max_joint_step: 0.3
+    line_velocity_scaling: 0.2
+    line_acceleration_scaling: 0.2
+    # grasp geometry (DC-20: tool0 0.025 below the object top)
+    grasp_below_top: 0.025
+    pregrasp_height: 0.10
+    lift_height: 0.10
+    min_clearance: 0.01          # DC-27: reject grasp/pre-grasp closer than this to anything
+    # gripper
+    gripper_open: 0.04
+    gripper_closed: 0.0
+    gripper_open_time: 1.5
+    gripper_close_time: 1.5
+    finger_settle_velocity: 0.002
+    finger_settle_time: 0.3
+    finger_settle_timeout: 2.0
+    # grasp verification (SPEC 11.5)
+    grasp_q_min: 0.015
+    grasp_q_max: 0.035
+    missed_q: 0.010
+    contact_window: 0.5
+    reverify_contact_window: 1.0
+    # After the attach the welded target no longer collides with the fingers in Gazebo (no
+    # self-collision), so contacts stop; re-verify uses finger width + Gazebo attach (DC-35).
+    # Hardware: true.
+    reverify_require_contact: false
+    hold_squeeze: 0.002          # fingers held this far inside the stall width, BEFORE the attach (DC-37)
+    hold_tolerance: 0.004        # after the lift each finger must still be within this of its hold
+    require_contact: true
+    target_model: target_cylinder
+    arm_base_frame: arm_base_link
+    pick_timeout: 90.0
+    floor_z: -0.012              # floor box centre; top 2 mm below the ground (DC-24)
+    # ---- place (SPEC 11.6, DC-38) ----
+    place_floor_clearance: 0.02      # object bottom this far above the box floor when released
+    preplace_height: 0.15            # tool0 above the place point (object bottom clears the rim by 0.03)
+    retract_height: 0.15
+    box_outer_size: 0.30
+    box_height: 0.15
+    box_wall: 0.01
+    released_q_min: 0.035            # both fingers at least this open after the release
+    release_no_contact_time: 0.5     # and no finger contact with the target for this long
+    release_check_perception: true   # target_detector must then see the object in the box
+    release_detection_topic: /perception/target_raw
+    release_detector_reset: /target_detector/reset
+    release_max_offset: 0.10         # m, median detection vs place point (xy)
+    release_detections: 3
+    release_detection_timeout: 5.0
+    place_timeout: 90.0

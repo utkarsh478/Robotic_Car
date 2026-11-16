@@ -1,0 +1,227 @@
+{
+  "goals": [
+    {
+      "goal": [
+        -1.6,
+        -0.6,
+        1.571
+      ],
+      "status": "SUCCEEDED",
+      "time": 9.6,
+      "pos_err": 0.14,
+      "yaw_err": 0.087,
+      "final_truth": [
+        -1.709,
+        -0.688,
+        1.657
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "home zone north-east"
+    },
+    {
+      "goal": [
+        -0.45,
+        2.3,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 14.5,
+      "pos_err": 0.142,
+      "yaw_err": 0.022,
+      "final_truth": [
+        -0.592,
+        2.29,
+        -0.022
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "top gap -> middle north"
+    },
+    {
+      "goal": [
+        0.95,
+        0.4,
+        -1.571
+      ],
+      "status": "SUCCEEDED",
+      "time": 11.6,
+      "pos_err": 0.124,
+      "yaw_err": 0.062,
+      "final_truth": [
+        0.853,
+        0.477,
+        -1.632
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "middle, between O1 and W2"
+    },
+    {
+      "goal": [
+        -0.45,
+        -0.2,
+        1.571
+      ],
+      "status": "SUCCEEDED",
+      "time": 10.1,
+      "pos_err": 0.102,
+      "yaw_err": 0.07,
+      "final_truth": [
+        -0.362,
+        -0.149,
+        1.501
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "middle, west of O1"
+    },
+    {
+      "goal": [
+        0.95,
+        -2.3,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 17.1,
+      "pos_err": 0.07,
+      "yaw_err": 0.087,
+      "final_truth": [
+        0.93,
+        -2.233,
+        0.087
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "middle south"
+    },
+    {
+      "goal": [
+        3.3,
+        -1.6,
+        1.571
+      ],
+      "status": "SUCCEEDED",
+      "time": 11.6,
+      "pos_err": 0.094,
+      "yaw_err": 0.104,
+      "final_truth": [
+        3.231,
+        -1.664,
+        1.675
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "bottom gap -> right zone"
+    },
+    {
+      "goal": [
+        3.4,
+        0.0,
+        1.571
+      ],
+      "status": "SUCCEEDED",
+      "time": 7.8,
+      "pos_err": 0.094,
+      "yaw_err": 0.056,
+      "final_truth": [
+        3.393,
+        -0.094,
+        1.515
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "behind O2 (east side)"
+    },
+    {
+      "goal": [
+        2.2,
+        2.3,
+        3.142
+      ],
+      "status": "SUCCEEDED",
+      "time": 12.3,
+      "pos_err": 0.106,
+      "yaw_err": 0.082,
+      "final_truth": [
+        2.291,
+        2.246,
+        -3.06
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "right zone north"
+    },
+    {
+      "goal": [
+        2.0,
+        -2.3,
+        3.142
+      ],
+      "status": "SUCCEEDED",
+      "time": 22.5,
+      "pos_err": 0.107,
+      "yaw_err": 0.097,
+      "final_truth": [
+        2.101,
+        -2.265,
+        3.045
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "right zone south-west"
+    },
+    {
+      "goal": [
+        -3.0,
+        -2.0,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 40.8,
+      "pos_err": 0.096,
+      "yaw_err": 0.063,
+      "final_truth": [
+        -2.936,
+        -1.929,
+        0.063
+      ],
+      "speed_1s_after": [
+        0.0,
+        0.0
+      ],
+      "contacts": 0,
+      "name": "home (both gaps)"
+    }
+  ],
+  "contacts": [],
+  "amcl_err_max": 0.06541294950075645,
+  "amcl_err_mean": 0.029715685955290026
+}

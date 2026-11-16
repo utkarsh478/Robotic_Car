@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- Mission world + robot at home + target/distractor + evaluator. Phase 3.
+     ros2 launch my_robot_bringup mission_sim.launch.xml                       (GUI, objects at T1)
+     ros2 launch my_robot_bringup mission_sim.launch.xml target_x:=0.9 target_y:=2.5   (T2)
+     ros2 launch my_robot_bringup mission_sim.launch.xml spawn_objects:=false   (mapping run)
+     Target positions (SPEC §8.2): T1 (3.3, 2.4)  T2 (0.9, 2.5)  T3 (3.4, -1.2). -->
+<launch>
+  <arg name="headless" default="false"/>
+  <arg name="headless_rendering" default="true"/>
+  <arg name="rviz" default="false"/>
+  <arg name="with_arm" default="true"/>
+  <arg name="spawn_objects" default="true"/>
+  <arg name="target_x" default="3.3"/>
+  <arg name="target_y" default="2.4"/>
+  <arg name="distractor_x" default="0.5"/>
+  <arg name="distractor_y" default="0.8"/>
+
+  <let name="models" value="$(find-pkg-share my_robot_bringup)/models"/>
+
+  <!-- Robot spawns at the home pose (-3.0, -2.0, yaw 0). -->
+  <include file="$(find-pkg-share my_robot_bringup)/launch/my_robot_gazebo.launch.xml">
+    <arg name="world" value="$(find-pkg-share my_robot_bringup)/worlds/mission_world.sdf"/>
+    <arg name="headless" value="$(var headless)"/>
+    <arg name="headless_rendering" value="$(var headless_rendering)"/>
+    <arg name="rviz" value="$(var rviz)"/>
+    <arg name="with_arm" value="$(var with_arm)"/>
+    <arg name="x" value="-3.0"/>
+    <arg name="y" value="-2.0"/>
+    <arg name="yaw" value="0.0"/>
+  </include>
+
+  <!-- Loose objects are spawned, not part of the world file, so the SLAM map never
+       contains them and trials can move them. -->
+  <group if="$(var spawn_objects)">
+    <node pkg="ros_gz_sim" exec="create" name="spawn_target" output="screen"
+          args="-name target_cylinder -file $(var models)/target_cylinder/model.sdf -x $(var target_x) -y $(var target_y) -z 0.001"/>
+    <node pkg="ros_gz_sim" exec="create" name="spawn_distractor" output="screen"
+          args="-name distractor_cylinder -file $(var models)/distractor_cylinder/model.sdf -x $(var distractor_x) -y $(var distractor_y) -z 0.001"/>
+  </group>
+
+  <!-- Ground-truth scorer. The only node allowed to read /evaluator/* besides gate scripts. -->
+  <node pkg="my_robot_bringup" exec="evaluator.py" name="evaluator" output="screen">
+    <param name="use_sim_time" value="true"/>
+  </node>
+</launch>

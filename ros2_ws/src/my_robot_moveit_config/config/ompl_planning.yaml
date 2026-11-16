@@ -1,0 +1,39 @@
+# OMPL pipeline (Humble format). RRTConnect for both groups (SPEC 11.3). The planner
+# definitions are listed explicitly: older Humble moveit_configs_utils releases do not add the
+# stock ompl_defaults.yaml when a package ships its own ompl_planning.yaml.
+planning_plugin: ompl_interface/OMPLPlanner
+request_adapters: >-
+  default_planner_request_adapters/AddTimeOptimalParameterization
+  default_planner_request_adapters/ResolveConstraintFrames
+  default_planner_request_adapters/FixWorkspaceBounds
+  default_planner_request_adapters/FixStartStateBounds
+  default_planner_request_adapters/FixStartStateCollision
+  default_planner_request_adapters/FixStartStatePathConstraints
+start_state_max_bounds_error: 0.1
+jiggle_fraction: 0.05
+
+planner_configs:
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0
+  RRTkConfigDefault:
+    type: geometric::RRT
+    range: 0.0
+    goal_bias: 0.05
+  PRMkConfigDefault:
+    type: geometric::PRM
+    max_nearest_neighbors: 10
+
+arm:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTkConfigDefault
+    - PRMkConfigDefault
+  projection_evaluator: joints(arm_yaw_joint,arm_shoulder_joint)
+  longest_valid_segment_fraction: 0.005
+
+gripper:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - RRTConnectkConfigDefault

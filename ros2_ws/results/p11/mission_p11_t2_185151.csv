@@ -1,0 +1,15 @@
+trial_id,state,t_enter,t_exit,outcome,retries,error_code,note
+p11_t2_185151,INIT,16.63,18.6,success,0,,
+p11_t2_185151,WAIT_FOR_START,18.6,18.7,success,0,,auto_start
+p11_t2_185151,LOCALIZE,18.7,19.3,success,0,,"1 no-motion updates, 0 spins"
+p11_t2_185151,SEARCH,19.3,131.0,success,0,,"target at (3.27, 2.42), 5 obs, std 0.006, waypoint 6"
+p11_t2_185151,APPROACH_TARGET,131.0,142.6,success,0,,"standoff (3.19, 1.62, 1.47), rotated +0 deg"
+p11_t2_185151,REFINE_TARGET,142.6,144.6,success,0,,"27 obs, std 0.0048"
+p11_t2_185151,FINAL_ALIGN_TARGET,144.6,157.1,success,0,,"target frozen in odom (6.302, 4.402), base (0.401, -0.000)"
+p11_t2_185151,PICK,157.1,172.4,success,0,,"picked: fingers L 0.027761 R 0.018248 m, last target contact L 2.210000 s R 2.210000 s ago, held at L 0.027761 R 0.018248 (in place), Gazebo attach confirmed"
+p11_t2_185151,NAVIGATE_HOME,172.4,231.8,success,0,,
+p11_t2_185151,FIND_BOX,231.8,235.8,success,0,,"box at (-2.93, -0.90), 6 obs, std 0.004, after 1.20 rad"
+p11_t2_185151,APPROACH_BOX,235.8,237.2,success,0,,"standoff (-2.88, -1.75, 1.63), rotated +0 deg"
+p11_t2_185151,FINAL_ALIGN_BOX,237.2,250.1,success,0,,"box frozen in odom (0.003, 1.099, yaw 0.000), base (0.481, +0.000)"
+p11_t2_185151,PLACE,250.1,264.6,success,0,,"placed: fingers L 0.04 R 0.04, last contact L 91.668 R 91.668 s ago; perception: target 5.28321 mm from the place point (3 detections)"
+p11_t2_185151,STOW_AND_FINISH,264.6,268.6,success,0,,backed up 0.307 m

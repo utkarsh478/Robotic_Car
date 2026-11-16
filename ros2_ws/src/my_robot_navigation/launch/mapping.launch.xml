@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- Mapping run: mission world WITHOUT loose objects + SLAM + RViz. Phase 3.
+     ros2 launch my_robot_navigation mapping.launch.xml
+     Drive with teleop (or tools/gates/map_drive.py), then run  bash tools/save_map.sh
+     which saves the map and shifts its origin so the map frame equals the world frame. -->
+<launch>
+  <arg name="headless" default="false"/>
+  <arg name="headless_rendering" default="true"/>
+  <arg name="rviz" default="true"/>
+
+  <include file="$(find-pkg-share my_robot_bringup)/launch/mission_sim.launch.xml">
+    <arg name="spawn_objects" value="false"/>
+    <arg name="headless" value="$(var headless)"/>
+    <arg name="headless_rendering" value="$(var headless_rendering)"/>
+    <arg name="rviz" value="false"/>
+  </include>
+
+  <include file="$(find-pkg-share my_robot_navigation)/launch/slam.launch.xml"/>
+
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="log" if="$(var rviz)"
+        args="-d $(find-pkg-share my_robot_navigation)/rviz/navigation.rviz">
+    <param name="use_sim_time" value="true"/>
+  </node>
+</launch>

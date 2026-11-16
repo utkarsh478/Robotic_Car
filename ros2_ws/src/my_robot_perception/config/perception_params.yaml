@@ -1,0 +1,53 @@
+# Perception parameters (SPEC 9). HSV in OpenCV units: H 0..180, S/V 0..255.
+# hue_ranges is a flat list of [lo, hi] pairs (ROS parameters cannot be nested lists).
+# Colours of the models (diffuse -> HSV, unlit): target (0.85,0.05,0.05) H 0; distractor
+# (0.9,0.8,0.05) H 26-27; box (0.1,0.7,0.15) H 63; obstacle O1 (0.75,0.45,0.2) H 14;
+# arm orange (0.95,0.5,0.1) H 14. Orange things at H 14 are kept out of the red range by the
+# hue limit AND by the 3-D shape check (O1 is 0.5 m tall, the arm floats above the ground).
+target_detector:
+  ros__parameters:
+    use_sim_time: true
+    enabled: true
+    map_frame: map
+    publish_rate: 10.0
+    tf_timeout: 0.1
+    sync_slop: 0.05
+    track_gate: 0.15
+    track_timeout: 10.0
+    track_window: 30
+    hue_ranges: [0, 10, 170, 180]
+    s_min: 120
+    v_min: 50
+    morph_kernel: 3
+    min_area: 150
+    depth_min: 0.2
+    depth_max: 4.0
+    max_points: 600
+    depth_gate: 0.08
+    radius: 0.025
+    height: 0.15
+    mid_z: 0.075
+
+box_detector:
+  ros__parameters:
+    use_sim_time: true
+    enabled: true
+    map_frame: map
+    publish_rate: 10.0
+    tf_timeout: 0.1
+    sync_slop: 0.05
+    track_gate: 0.15
+    track_timeout: 10.0
+    track_window: 30
+    hue_ranges: [45, 85]
+    s_min: 100
+    v_min: 50
+    morph_kernel: 3
+    min_area: 400
+    depth_min: 0.2
+    depth_max: 4.0
+    max_points: 1500
+    depth_gate: 0.40
+    size: 0.30
+    height: 0.15
+    floor_z: 0.01

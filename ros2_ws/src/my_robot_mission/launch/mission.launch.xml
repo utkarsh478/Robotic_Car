@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- Mission FSM only (SPEC §12). Needs Gazebo, Nav2, move_group, pick_place_server and
+     perception already running; full_mission.launch.xml (my_robot_bringup) starts everything.
+     ros2 launch my_robot_mission mission.launch.xml auto_start:=true
+     Manual start:  ros2 service call /mission/start std_srvs/srv/Trigger
+     Watch:         ros2 topic echo /mission/state      (result: /mission/result) -->
+<launch>
+  <arg name="auto_start" default="false"/>
+  <arg name="trial_id" default="auto"/>
+  <arg name="results_dir" default="auto"/>
+  <arg name="params" default="$(find-pkg-share my_robot_mission)/config/mission_params.yaml"/>
+  <node pkg="my_robot_mission" exec="mission_fsm" name="mission_fsm" output="screen">
+    <param from="$(var params)"/>
+    <param name="use_sim_time" value="true"/>
+    <param name="auto_start" value="$(var auto_start)"/>
+    <param name="trial_id" value="$(var trial_id)"/>
+    <param name="results_dir" value="$(var results_dir)"/>
+  </node>
+</launch>

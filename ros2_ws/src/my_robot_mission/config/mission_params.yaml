@@ -1,0 +1,104 @@
+# Mission FSM parameters (SPEC §12). Every number the state machine uses lives here.
+# Nested keys become dotted parameter names (timeout.init, target.standoff, ...).
+# test/test_params.py checks this file against core.DEFAULTS: same keys, same types.
+# Lists are flat (ROS parameters cannot be nested lists). Floats are written with a decimal point:
+# a ROS parameter keeps the type of its default (5 is an int, 5.0 a double).
+mission_fsm:
+  ros__parameters:
+    use_sim_time: true
+    auto_start: false
+    trial_id: "auto"            # "auto" = timestamp; names results/mission_<trial_id>.csv
+    results_dir: "auto"         # "auto" = <cwd>/results
+    home: [-3.0, -2.0, 0.0]     # x, y, yaw in map (== Gazebo world, DC-9)
+    # map frame, [x0, y0, x1, y1, ...]; SPEC §12 list, validated in P11 by
+    # tools/gates/check_waypoints.py (world geometry) and the gate's live-costmap check
+    search_waypoints: [-2.6, 0.2, -2.2, 2.3, 0.0, 1.8, 0.4, -2.2, 2.5, -2.2, 2.3, 1.2]
+
+    timeout:                    # s, measured from state entry (SPEC §12 table)
+      init: 90.0
+      localize: 40.0
+      search: 600.0
+      approach_target: 180.0
+      refine_target: 10.0
+      final_align_target: 40.0
+      pick: 90.0
+      navigate_home: 300.0
+      find_box: 60.0
+      approach_box: 120.0
+      final_align_box: 40.0
+      place: 90.0
+      stow_and_finish: 30.0
+      backup: 15.0              # helper state (DC-41)
+
+    localize:
+      initial_cov: [0.0625, 0.0625, 0.0685]   # /initialpose spread (RViz default): above the limits,
+      max_cov_xy: 0.05                        # so convergence has to be earned
+      max_cov_yaw: 0.05
+      nomotion_period: 0.5      # s between AMCL no-motion update requests
+      nomotion_count: 10        # requests before falling back to a 2*pi spin
+      spins: 2                  # SPEC: spin once, 1 extra spin, then FAILED
+      after_spin_wait: 3.0
+
+    target:
+      found_count: 5            # SEARCH exit: track with >= 5 observations ...
+      found_std: 0.03           # ... and stddev < 0.03 m
+      refine_count: 10          # REFINE_TARGET: >= 10 new observations ...
+      refine_std: 0.02          # ... stddev < 0.02 m ...
+      refine_dwell: 2.0         # ... after standing still >= 2 s
+      standoff: 0.80
+      align_x: 0.55             # closed loop on the detection down to target base-x 0.55
+      final_x: 0.40             # then odometry creep to 0.40 (the P9 grasp distance)
+      max_y: 0.015
+      diameter: 0.05
+      height: 0.15
+      mid_z: 0.075
+
+    box:
+      found_count: 5
+      found_std: 0.03
+      find_step: 0.6            # rad per Spin step in FIND_BOX (about half the camera FOV)
+      find_dwell: 1.0           # s still after each step
+      standoff: 0.85
+      align_x: 0.65
+      final_x: 0.48             # DC-38: 0.45 puts the box wall inside the lidar puck
+      place_clearance: 0.02     # object bottom above the box floor at release
+
+    standoff_rotations: [0.0, 30.0, -30.0, 60.0, -60.0, 90.0, -90.0]   # deg about the object
+    footprint: [0.31, 0.27, -0.27, -0.27]   # front, left, rear, right (Nav2 footprint, DC-17)
+    footprint_pad: 0.03
+
+    align:                      # final approach: Nav2 idle, the mission drives /cmd_vel
+      nav_settle: 1.5           # s: let Nav2's velocity smoother time out first
+      fresh_obs: 5              # new observations needed before moving
+      track_lost: 3.0           # s without a new observation -> align failed
+      bearing_tol: 0.02         # rad
+      k_w: 1.5
+      w_max: 0.4
+      w_min: 0.06
+      k_v: 1.0
+      v_max: 0.10               # SPEC: <= 0.10 m/s closed loop
+      v_creep: 0.05
+      v_min: 0.015
+      freeze_dwell: 0.5         # s at rest before freezing the estimate ...
+      freeze_obs: 8             # ... from >= 8 observations taken at rest (tracker reset on stop)
+
+    backup:
+      speed: 0.08
+      after_align: 0.20
+      after_pick: 0.15
+      finish: 0.30
+
+    retries:
+      approach_target: 2
+      refine_target: 1
+      final_align_target: 1
+      pick_attempts: 2          # total attempts, not retries
+      navigate_home: 2
+      approach_box: 2
+      final_align_box: 1
+      place: 1
+
+    grasp:                      # holding monitor, NAVIGATE_HOME..FINAL_ALIGN_BOX (DC-35, DC-41)
+      lost_q: 0.010
+      lost_debounce: 1.0
+      period: 0.2               # 5 Hz

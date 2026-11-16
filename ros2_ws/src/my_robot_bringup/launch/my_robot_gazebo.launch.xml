@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!-- Gazebo Fortress + robot + ros2_control + ROS<->Gazebo bridge. Phase 2.
+     GUI:       ros2 launch my_robot_bringup my_robot_gazebo.launch.xml rviz:=true
+     Headless:  ros2 launch my_robot_bringup my_robot_gazebo.launch.xml headless:=true
+     Every ROS node here runs with use_sim_time:=true (time comes from /clock). -->
+<launch>
+  <arg name="world" default="$(find-pkg-share my_robot_bringup)/worlds/test_world.sdf"/>
+  <arg name="headless" default="false"/>
+  <!-- The headless-rendering flag uses EGL so cameras/gpu_lidar render with no window.
+       If the sensors publish nothing in headless mode, retry with headless_rendering:=false. -->
+  <arg name="headless_rendering" default="true"/>
+  <arg name="rviz" default="false"/>
+  <arg name="with_arm" default="true"/>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+
+
+  <!-- Gazebo must find the gz_ros2_control system plugin (in /opt/ros/<distro>/lib)
+       and, from Phase 3, our models. Fortress reads IGN_*; GZ_* is set too for later versions. -->
+  <set_env name="IGN_GAZEBO_SYSTEM_PLUGIN_PATH" value="/opt/ros/$(env ROS_DISTRO)/lib:$(env IGN_GAZEBO_SYSTEM_PLUGIN_PATH '')"/>
+  <set_env name="GZ_SIM_SYSTEM_PLUGIN_PATH" value="/opt/ros/$(env ROS_DISTRO)/lib:$(env GZ_SIM_SYSTEM_PLUGIN_PATH '')"/>
+  <!-- model://home_box etc. resolve against share/my_robot_bringup/models (SPEC §16 pitfall 10) -->
+  <set_env name="IGN_GAZEBO_RESOURCE_PATH" value="$(find-pkg-share my_robot_bringup)/models:$(env IGN_GAZEBO_RESOURCE_PATH '')"/>
+  <set_env name="GZ_SIM_RESOURCE_PATH" value="$(find-pkg-share my_robot_bringup)/models:$(env GZ_SIM_RESOURCE_PATH '')"/>
+
+  <!-- ===== Gazebo ===== -->
+  <group if="$(var headless)">
+    <executable cmd="ign gazebo -s -r --headless-rendering $(var world)" output="screen" if="$(var headless_rendering)"/>
+    <executable cmd="ign gazebo -s -r $(var world)" output="screen" unless="$(var headless_rendering)"/>
+  </group>
+  <executable cmd="ign gazebo -r $(var world)" output="screen" unless="$(var headless)"/>
+
+  <!-- ===== Robot description -> /robot_description + TF of internal links ===== -->
+  <include file="$(find-pkg-share my_robot_description)/launch/rsp.launch.py">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="with_arm" value="$(var with_arm)"/>
+  </include>
+
+  <!-- ===== Spawn the robot from /robot_description (z 0.01 avoids initial ground overlap) ===== -->
+  <node pkg="ros_gz_sim" exec="create" name="spawn_my_robot" output="screen"
+        args="-name my_robot -topic robot_description -x $(var x) -y $(var y) -z 0.01 -Y $(var yaw)"/>
+
+  <!-- ===== ROS <-> Gazebo bridge (Fortress message names: ignition.msgs.*) =====
+       '[' = Gazebo -> ROS only. Camera points are not bridged (SPEC §16 pitfall 9). -->
+  <node pkg="ros_gz_bridge" exec="parameter_bridge" name="gz_bridge" output="screen"
+        args="/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock
+              /scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan
+              /imu@sensor_msgs/msg/Imu[ignition.msgs.IMU
+              /camera/image@sensor_msgs/msg/Image[ignition.msgs.Image
+              /camera/depth_image@sensor_msgs/msg/Image[ignition.msgs.Image
+              /camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo
+              /model/my_robot/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry
+              /model/target_cylinder/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry
+              /model/distractor_cylinder/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry
+              /gripper/left_contact@ros_gz_interfaces/msg/Contacts[ignition.msgs.Contacts
+              /gripper/right_contact@ros_gz_interfaces/msg/Contacts[ignition.msgs.Contacts
+              /gripper/attach_state@std_msgs/msg/String[ignition.msgs.StringMsg
+              /gripper/attach@std_msgs/msg/Empty]ignition.msgs.Empty
+              /gripper/detach@std_msgs/msg/Empty]ignition.msgs.Empty">
+    <param name="use_sim_time" value="true"/>
+    <!-- ground truth goes to the quarantined /evaluator namespace (CLAUDE.md rule 4) -->
+    <remap from="/model/my_robot/odometry" to="/evaluator/robot_odom"/>
+    <remap from="/model/target_cylinder/odometry" to="/evaluator/target_odom"/>
+    <remap from="/model/distractor_cylinder/odometry" to="/evaluator/distractor_odom"/>
+  </node>
+
+  <!-- ===== Controllers (the controller_manager runs inside Gazebo via gz_ros2_control) ===== -->
+  <node pkg="controller_manager" exec="spawner" name="spawner_jsb" output="screen"
+        args="joint_state_broadcaster --controller-manager /controller_manager --controller-manager-timeout 120">
+    <param name="use_sim_time" value="true"/>
+  </node>
+  <node pkg="controller_manager" exec="spawner" name="spawner_diff_drive" output="screen"
+        args="diff_drive_controller --controller-manager /controller_manager --controller-manager-timeout 120">
+    <param name="use_sim_time" value="true"/>
+  </node>
+
+  <group if="$(var with_arm)">
+    <node pkg="controller_manager" exec="spawner" name="spawner_arm" output="screen"
+          args="arm_controller --controller-manager /controller_manager --controller-manager-timeout 120">
+      <param name="use_sim_time" value="true"/>
+    </node>
+    <node pkg="controller_manager" exec="spawner" name="spawner_gripper" output="screen"
+          args="gripper_controller --controller-manager /controller_manager --controller-manager-timeout 120">
+      <param name="use_sim_time" value="true"/>
+    </node>
+    <!-- Owns the simulated grasp attach: detached by default (Fortress attaches at startup). -->
+    <node pkg="my_robot_bringup" exec="grasp_attach_manager.py" name="grasp_attach_manager" output="screen">
+      <param name="use_sim_time" value="true"/>
+    </node>
+  </group>
+
+  <!-- ===== RViz (optional) ===== -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="log" if="$(var rviz)"
+        args="-d $(find-pkg-share my_robot_bringup)/rviz/sim.rviz">
+    <param name="use_sim_time" value="true"/>
+  </node>
+</launch>

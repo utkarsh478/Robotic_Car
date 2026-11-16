@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<!-- Lidar, IMU, camera mast and RGB-D camera. SPEC §3.2.
+     The <gazebo> sensor blocks are ignored by RViz; they become active in Phase 2
+     once the world loads the Sensors and Imu systems.
+     Every sensor sets <gz_frame_id> (Harmonic+) and <ignition_frame_id> (Fortress);
+     the unused one is ignored: URDF->SDF conversion lumps fixed-joint links
+     into base_link, and without it the message frame_id would be wrong. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ===================== 2D LIDAR ===================== -->
+  <!-- Front-mounted, 180 deg FOV: from x=0.27 it cannot see the chassis (front at
+       x=0.25), the wheels, the mast or the arm base. Scan plane 0.12 m above ground,
+       below the 0.15 m tall target and box so both are seen as obstacles. -->
+  <xacro:property name="lidar_x" value="0.27"/>
+  <xacro:property name="lidar_z" value="0.045"/>   <!-- 0.075 + 0.045 = 0.12 above ground -->
+
+  <link name="lidar_link">
+    <visual>
+      <geometry><cylinder radius="0.035" length="0.04"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.035" length="0.04"/></geometry>
+    </collision>
+    <xacro:cylinder_inertia m="0.1" r="0.035" h="0.04">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:cylinder_inertia>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="${lidar_x} 0 ${lidar_z}" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <gz_frame_id>lidar_link</gz_frame_id>               <!-- Harmonic+ -->
+      <ignition_frame_id>lidar_link</ignition_frame_id>   <!-- Fortress (Humble) -->
+      <topic>scan</topic>
+      <update_rate>10</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>361</samples>
+            <resolution>1</resolution>
+            <min_angle>${-PI/2}</min_angle>
+            <max_angle>${PI/2}</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1</resolution>
+            <min_angle>0.0</min_angle>
+            <max_angle>0.0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!-- ===================== IMU ===================== -->
+  <link name="imu_link">
+    <visual>
+      <geometry><box size="0.02 0.02 0.01"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <xacro:box_inertia m="0.01" x="0.02" y="0.02" z="0.01">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:box_inertia>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:macro name="imu_noise" params="stddev">
+    <noise type="gaussian"><mean>0.0</mean><stddev>${stddev}</stddev></noise>
+  </xacro:macro>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <gz_frame_id>imu_link</gz_frame_id>               <!-- Harmonic+ -->
+      <ignition_frame_id>imu_link</ignition_frame_id>   <!-- Fortress (Humble) -->
+      <topic>imu</topic>
+      <update_rate>100</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <imu>
+        <angular_velocity>
+          <x><xacro:imu_noise stddev="2e-4"/></x>
+          <y><xacro:imu_noise stddev="2e-4"/></y>
+          <z><xacro:imu_noise stddev="2e-4"/></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><xacro:imu_noise stddev="1.7e-2"/></x>
+          <y><xacro:imu_noise stddev="1.7e-2"/></y>
+          <z><xacro:imu_noise stddev="1.7e-2"/></z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <!-- ===================== CAMERA MAST ===================== -->
+  <!-- Vertical post, chassis top (z 0.11) to z 0.38 in base_link (0.455 above ground).
+       Offset to y=-0.12 so it stays clear of the arm plane (y=0).
+       DC-40: the top stops 0.045 below the camera centre. With the old top 0.015 below the
+       lens (and r 0.015), Gazebo's RGB-D camera drew the grey top cap over every pixel more
+       than 45 deg below horizontal (its 0.1 m near clip did not hide it), blinding the bottom
+       third of the image. At 0.045 below, the cap's rim is 72 deg down; the image bottom is
+       62 deg down. -->
+  <link name="camera_mast_link">
+    <visual>
+      <geometry><cylinder radius="0.015" length="0.27"/></geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.015" length="0.27"/></geometry>
+    </collision>
+    <xacro:cylinder_inertia m="0.2" r="0.015" h="0.27">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:cylinder_inertia>
+  </link>
+
+  <joint name="camera_mast_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_mast_link"/>
+    <origin xyz="0.20 -0.12 0.245" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ===================== RGB-D CAMERA ===================== -->
+  <!-- 0.50 m above ground, pitched 0.60 rad (34 deg) down.
+       camera_link: x forward (Gazebo renders along +x of this frame).
+       camera_optical_link: z forward, x right, y down (REP-103 optical). -->
+  <xacro:property name="cam_pitch" value="0.60"/>
+
+  <link name="camera_link">
+    <visual>
+      <geometry><box size="0.03 0.08 0.03"/></geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.03 0.08 0.03"/></geometry>
+    </collision>
+    <xacro:box_inertia m="0.1" x="0.03" y="0.08" z="0.03">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:box_inertia>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0.20 -0.12 0.425" rpy="0 ${cam_pitch} 0"/>
+  </joint>
+
+  <link name="camera_optical_link"/>
+
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}"/>
+  </joint>
+
+  <gazebo reference="camera_link">
+    <sensor name="camera" type="rgbd_camera">
+      <gz_frame_id>camera_optical_link</gz_frame_id>               <!-- Harmonic+ -->
+      <ignition_frame_id>camera_optical_link</ignition_frame_id>   <!-- Fortress (Humble) -->
+      <!-- publishes camera/image, camera/depth_image, camera/points, camera/camera_info -->
+      <topic>camera</topic>
+      <update_rate>15</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <camera>
+        <horizontal_fov>1.2</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10.0</far>
+        </clip>
+        <depth_camera>
+          <clip>
+            <near>0.2</near>
+            <far>4.0</far>
+          </clip>
+        </depth_camera>
+      </camera>
+    </sensor>
+  </gazebo>
+
+</robot>

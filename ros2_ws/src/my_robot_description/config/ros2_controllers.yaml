@@ -1,0 +1,93 @@
+# ros2_control controllers. SPEC §5. Parameter names are for ROS 2 Humble's
+# ros2_controllers (verify with:  ros2 param list /diff_drive_controller).
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["left_wheel_joint"]
+    right_wheel_names: ["right_wheel_joint"]
+
+    wheel_separation: 0.38
+    wheel_radius: 0.075
+    wheels_per_side: 1
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+    pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.01]
+
+    open_loop: false
+    position_feedback: true
+    enable_odom_tf: true          # sole owner of odom -> base_footprint (SPEC §4)
+
+    cmd_vel_timeout: 0.5          # stop if no command for 0.5 s
+    # Humble default is true (TwistStamped on ~/cmd_vel). Nav2 on Humble publishes
+    # plain Twist, so use unstamped: subscribes ~/cmd_vel_unstamped, remapped to /cmd_vel.
+    use_stamped_vel: false
+
+    linear.x.has_velocity_limits: true
+    linear.x.has_acceleration_limits: true
+    linear.x.max_velocity: 0.4
+    linear.x.min_velocity: -0.4
+    linear.x.max_acceleration: 0.8
+    linear.x.min_acceleration: -0.8
+
+    angular.z.has_velocity_limits: true
+    angular.z.has_acceleration_limits: true
+    angular.z.max_velocity: 1.0
+    angular.z.min_velocity: -1.0
+    angular.z.max_acceleration: 2.0
+    angular.z.min_acceleration: -2.0
+
+arm_controller:
+  ros__parameters:
+    joints: [arm_yaw_joint, arm_shoulder_joint, arm_elbow_joint, arm_wrist_joint]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    allow_partial_joints_goal: false
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+    constraints:
+      stopped_velocity_tolerance: 0.05
+      goal_time: 1.0                    # abort if not within goal tolerance 1 s after the end
+      arm_yaw_joint:      {trajectory: 0.0, goal: 0.03}
+      arm_shoulder_joint: {trajectory: 0.0, goal: 0.03}
+      arm_elbow_joint:    {trajectory: 0.0, goal: 0.03}
+      arm_wrist_joint:    {trajectory: 0.0, goal: 0.03}
+
+# Fingers are commanded symmetrically by our code (SPEC §3.4, no mimic joints).
+# A finger that stalls on the object (q ~ 0.025 while commanded 0.0) must NOT abort the goal:
+# goal tolerance 0.0 = not checked, goal_time 0.0 = no time limit, so the goal succeeds when
+# the trajectory time has elapsed. Grasp success is judged separately (SPEC §11.5).
+gripper_controller:
+  ros__parameters:
+    joints: [left_finger_joint, right_finger_joint]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    allow_partial_joints_goal: false
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      left_finger_joint:  {trajectory: 0.0, goal: 0.0}
+      right_finger_joint: {trajectory: 0.0, goal: 0.0}

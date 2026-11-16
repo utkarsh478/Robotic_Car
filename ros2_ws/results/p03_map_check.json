@@ -1,0 +1,30 @@
+{
+  "coverage": {
+    "walls": 1.0,
+    "obstacles": 0.857,
+    "home_box": 0.864
+  },
+  "per_model": {
+    "home_box": 0.864,
+    "obstacle_O1": 0.887,
+    "obstacle_O2": 1.0,
+    "obstacle_O3": 0.74,
+    "wall_W1": 1.0,
+    "wall_W2": 1.0,
+    "wall_east": 1.0,
+    "wall_north": 1.0,
+    "wall_south": 1.0,
+    "wall_west": 1.0
+  },
+  "free_outside": 0,
+  "home_cell": "free",
+  "map": {
+    "w": 162,
+    "h": 122,
+    "res": 0.05,
+    "origin": [
+      -4.04,
+      -3.05
+    ]
+  }
+}

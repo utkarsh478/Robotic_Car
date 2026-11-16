@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Semantic description of my_robot for MoveIt 2 (hand-written; Setup Assistant equivalent).
+     SPEC 3.5 and 11.2. Planning frame = base_footprint (no virtual joint, see DC-24): the arm
+     plans in the robot frame; scene objects given in odom are transformed once when added,
+     which is valid because the base never moves during pick/place. -->
+<robot name="my_robot">
+
+  <!-- 4-DOF arm: yaw + 3 pitch joints. tool0 is the grasp point between the fingers. -->
+  <group name="arm">
+    <chain base_link="arm_base_link" tip_link="tool0"/>
+  </group>
+
+  <!-- two independent prismatic fingers, always commanded symmetrically -->
+  <group name="gripper">
+    <joint name="left_finger_joint"/>
+    <joint name="right_finger_joint"/>
+  </group>
+
+  <end_effector name="gripper" parent_link="tool0" group="gripper" parent_group="arm"/>
+
+  <!-- Named states. stow == transport: verified by check_named_states.py (SPEC 3.5 constraints:
+       inside the footprint, above the chassis, out of the camera view, clearance >= 0.02 m,
+       also while holding the target). Found by its grid search; SPEC's initial guess
+       (0, -0.5, 2.4, 1.24) left only 0.018 m between a held target and arm_base_link. -->
+  <group_state name="zero" group="arm">
+    <joint name="arm_yaw_joint" value="0.0"/>
+    <joint name="arm_shoulder_joint" value="0.0"/>
+    <joint name="arm_elbow_joint" value="0.0"/>
+    <joint name="arm_wrist_joint" value="0.0"/>
+  </group_state>
+  <group_state name="stow" group="arm">
+    <joint name="arm_yaw_joint" value="0.0"/>
+    <joint name="arm_shoulder_joint" value="-0.60"/>
+    <joint name="arm_elbow_joint" value="1.85"/>
+    <joint name="arm_wrist_joint" value="1.8916"/>
+  </group_state>
+  <group_state name="transport" group="arm">
+    <joint name="arm_yaw_joint" value="0.0"/>
+    <joint name="arm_shoulder_joint" value="-0.60"/>
+    <joint name="arm_elbow_joint" value="1.85"/>
+    <joint name="arm_wrist_joint" value="1.8916"/>
+  </group_state>
+  <group_state name="open" group="gripper">
+    <joint name="left_finger_joint" value="0.04"/>
+    <joint name="right_finger_joint" value="0.04"/>
+  </group_state>
+  <group_state name="closed" group="gripper">
+    <joint name="left_finger_joint" value="0.0"/>
+    <joint name="right_finger_joint" value="0.0"/>
+  </group_state>
+
+  <!-- the wheels are driven by diff_drive_controller, never by MoveIt -->
+  <passive_joint name="left_wheel_joint"/>
+  <passive_joint name="right_wheel_joint"/>
+
+  <!-- Self-collision matrix: scripts/gen_acm.py (SPEC 11.2). Pairs not listed are checked. -->
+  <!-- BEGIN gen_acm.py (generated, do not edit by hand) -->
+  <!-- 10000 random configurations, seed 11, padding 0.003 m, Never margin 0.03 m -->
+  <disable_collisions link1="arm_base_link" link2="base_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="camera_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="camera_mast_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="front_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="left_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_base_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="camera_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="camera_mast_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="front_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="left_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="base_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="camera_mast_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="front_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="left_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="front_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="left_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="camera_mast_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="forearm_link" link2="gripper_base_link" reason="Adjacent"/>
+  <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="forearm_link" link2="wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="front_caster_link" link2="left_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="front_caster_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="front_caster_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="front_caster_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="front_caster_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="left_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="right_finger_link" reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="left_finger_link" link2="wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="left_wheel_link" link2="lidar_link" reason="Adjacent"/>
+  <disable_collisions link1="left_wheel_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="lidar_link" link2="rear_caster_link" reason="Adjacent"/>
+  <disable_collisions link1="lidar_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="lidar_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="rear_caster_link" link2="right_wheel_link" reason="Adjacent"/>
+  <disable_collisions link1="rear_caster_link" link2="shoulder_link" reason="Adjacent"/>
+  <disable_collisions link1="right_finger_link" link2="wrist_link" reason="Adjacent"/>
+  <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent"/>
+  <disable_collisions link1="left_finger_link" link2="right_finger_link" reason="Default"/>
+  <disable_collisions link1="forearm_link" link2="left_finger_link" reason="Never"/>
+  <disable_collisions link1="forearm_link" link2="right_finger_link" reason="Never"/>
+  <disable_collisions link1="forearm_link" link2="shoulder_link" reason="Never"/>
+  <disable_collisions link1="front_caster_link" link2="upper_arm_link" reason="Never"/>
+  <disable_collisions link1="left_wheel_link" link2="right_wheel_link" reason="Never"/>
+  <disable_collisions link1="left_wheel_link" link2="shoulder_link" reason="Never"/>
+  <disable_collisions link1="rear_caster_link" link2="upper_arm_link" reason="Never"/>
+  <disable_collisions link1="right_wheel_link" link2="shoulder_link" reason="Never"/>
+  <disable_collisions link1="upper_arm_link" link2="wrist_link" reason="Never"/>
+  <!-- END gen_acm.py -->
+</robot>

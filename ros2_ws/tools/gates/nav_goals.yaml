@@ -1,0 +1,14 @@
+# Phase-4 navigation goals, map frame == Gazebo world frame (DC-9). Sent in this order
+# from the home pose (-3, -2, 0). Every goal is >= 0.5 m from obstacles, so the robot can
+# also rotate there (checked against the world file). yaw in radians.
+goals:
+  - {name: "home zone north-east",      x: -1.60, y: -0.60, yaw: 1.5708}
+  - {name: "top gap -> middle north",   x: -0.45, y:  2.30, yaw: 0.0}
+  - {name: "middle, between O1 and W2", x:  0.95, y:  0.40, yaw: -1.5708}
+  - {name: "middle, west of O1",        x: -0.45, y: -0.20, yaw: 1.5708}
+  - {name: "middle south",              x:  0.95, y: -2.30, yaw: 0.0}
+  - {name: "bottom gap -> right zone",  x:  3.30, y: -1.60, yaw: 1.5708}
+  - {name: "behind O2 (east side)",     x:  3.40, y:  0.00, yaw: 1.5708}
+  - {name: "right zone north",          x:  2.20, y:  2.30, yaw: 3.1416}
+  - {name: "right zone south-west",     x:  2.00, y: -2.30, yaw: 3.1416}
+  - {name: "home (both gaps)",          x: -3.00, y: -2.00, yaw: 0.0}

@@ -1,0 +1,37 @@
+# Planning limits (SPEC P7). Velocities = URDF limits; accelerations are needed by the time
+# parameterisation (TOTG) and are not in the URDF. Fingers: velocity from the URDF, 0.1 m/s^2.
+# MoveGroupInterface clients default to these scaling factors; the gates pass their own.
+default_velocity_scaling_factor: 0.5
+default_acceleration_scaling_factor: 0.5
+
+joint_limits:
+  arm_yaw_joint:
+    has_velocity_limits: true
+    max_velocity: 1.5
+    has_acceleration_limits: true
+    max_acceleration: 2.0
+  arm_shoulder_joint:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 2.0
+  arm_elbow_joint:
+    has_velocity_limits: true
+    max_velocity: 1.2
+    has_acceleration_limits: true
+    max_acceleration: 2.0
+  arm_wrist_joint:
+    has_velocity_limits: true
+    max_velocity: 1.5
+    has_acceleration_limits: true
+    max_acceleration: 2.0
+  left_finger_joint:
+    has_velocity_limits: true
+    max_velocity: 0.05
+    has_acceleration_limits: true
+    max_acceleration: 0.1
+  right_finger_joint:
+    has_velocity_limits: true
+    max_velocity: 0.05
+    has_acceleration_limits: true
+    max_acceleration: 0.1

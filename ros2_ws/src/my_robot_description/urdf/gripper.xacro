@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!-- 2-finger parallel gripper (separate end-effector group, not one of the 4 arm DOF). SPEC §3.4.
+     Each finger is its own prismatic joint, q in [0, 0.04] m; the inner face sits at |y| = q,
+     so the gap is 2q (open 0.08 m, contact on the 0.05 m cylinder at q ~ 0.025).
+     Fingertips are 0.08 m along the approach axis from gripper_base_link; tool0 is 0.03 m
+     behind the tips (between the fingers). -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="gripper_base_link">
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.12 0.02"/></geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.12 0.02"/></geometry>
+    </collision>
+    <xacro:box_inertia m="0.2" x="0.04" y="0.12" z="0.02">
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    </xacro:box_inertia>
+  </link>
+  <joint name="gripper_base_joint" type="fixed">
+    <parent link="wrist_link"/>
+    <child link="gripper_base_link"/>
+    <origin xyz="0 0 0.06" rpy="0 0 0"/>
+  </joint>
+
+  <link name="tool0"/>
+  <joint name="tool0_joint" type="fixed">
+    <parent link="gripper_base_link"/>
+    <child link="tool0"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <!-- side: left (+y) / right (-y) -->
+  <xacro:macro name="finger" params="side sign">
+    <link name="${side}_finger_link">
+      <visual>
+        <origin xyz="0 ${sign * 0.005} 0.03" rpy="0 0 0"/>
+        <geometry><box size="0.02 0.01 0.06"/></geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <origin xyz="0 ${sign * 0.005} 0.03" rpy="0 0 0"/>
+        <geometry><box size="0.02 0.01 0.06"/></geometry>
+      </collision>
+      <xacro:box_inertia m="0.05" x="0.02" y="0.01" z="0.06">
+        <origin xyz="0 ${sign * 0.005} 0.03" rpy="0 0 0"/>
+      </xacro:box_inertia>
+    </link>
+    <joint name="${side}_finger_joint" type="prismatic">
+      <parent link="gripper_base_link"/>
+      <child link="${side}_finger_link"/>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <axis xyz="0 ${sign} 0"/>
+      <limit lower="0.0" upper="0.04" effort="20.0" velocity="0.05"/>
+      <dynamics damping="0.5" friction="0.0"/>
+    </joint>
+
+    <gazebo reference="${side}_finger_link">
+      <mu1>2.0</mu1>
+      <mu2>2.0</mu2>
+      <!-- Grasp evidence (SPEC §11.5). URDF->SDF names the collision "<link>_collision";
+           gate_p05 checks that name in the converted SDF. -->
+      <sensor name="${side}_finger_contact" type="contact">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <contact>
+          <collision>${side}_finger_link_collision</collision>
+          <topic>/gripper/${side}_contact</topic>
+        </contact>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:finger side="left" sign="1"/>
+  <xacro:finger side="right" sign="-1"/>
+
+  <!-- Simulated grasp attach (SPEC §3.4, DC-19). Fortress 6.18 attaches the moment both models
+       exist (no initial_attach option before 6.18), so grasp_attach_manager.py detaches it at
+       startup and only attaches on request after a verified grasp. parent_link is wrist_link:
+       gripper_base_link is fixed to it and gets lumped into it by the URDF->SDF conversion. -->
+  <gazebo>
+    <plugin filename="ignition-gazebo-detachable-joint-system"
+            name="ignition::gazebo::systems::DetachableJoint">
+      <parent_link>wrist_link</parent_link>
+      <child_model>target_cylinder</child_model>
+      <child_link>link</child_link>
+      <attach_topic>/gripper/attach</attach_topic>
+      <detach_topic>/gripper/detach</detach_topic>
+      <output_topic>/gripper/attach_state</output_topic>
+      <suppress_child_warning>true</suppress_child_warning>
+    </plugin>
+  </gazebo>
+
+</robot>

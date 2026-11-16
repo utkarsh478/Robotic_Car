@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Target + box detectors (SPEC 9) in one process that subscribes to the camera once (DC-31).
+     The two nodes keep their names: /target_detector, /box_detector. No name= on the node tag:
+     a launch name would rename BOTH nodes of the process.
+     ros2 launch my_robot_perception perception.launch.xml                   (both enabled)
+     ros2 launch my_robot_perception perception.launch.xml enabled:=false    (mission toggles them) -->
+<launch>
+  <arg name="enabled" default="true"/>
+  <!-- frame of the published detections; the P9 gate uses odom (it teleports the robot) -->
+  <arg name="map_frame" default="map"/>
+  <arg name="params" default="$(find-pkg-share my_robot_perception)/config/perception_params.yaml"/>
+  <node pkg="my_robot_perception" exec="perception_node" output="screen">
+    <param from="$(var params)"/>
+    <param name="enabled" value="$(var enabled)"/>
+    <param name="map_frame" value="$(var map_frame)"/>
+  </node>
+</launch>

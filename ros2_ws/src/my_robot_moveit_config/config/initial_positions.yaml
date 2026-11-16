@@ -1,0 +1,8 @@
+# Only used by mock-hardware demos; Gazebo sets the real start state (ros2_control.xacro).
+initial_positions:
+  arm_yaw_joint: 0.0
+  arm_shoulder_joint: 0.0
+  arm_elbow_joint: 0.0
+  arm_wrist_joint: 0.0
+  left_finger_joint: 0.04
+  right_finger_joint: 0.04

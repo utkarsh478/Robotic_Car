@@ -1,0 +1,25 @@
+{
+  "result": {
+    "goal": [
+      0.4,
+      1.6,
+      0.0
+    ],
+    "status": "ABORTED",
+    "time": 25.5,
+    "pos_err": 4.805,
+    "yaw_err": 1.275,
+    "final_truth": [
+      -2.823,
+      -1.963,
+      1.275
+    ],
+    "speed_1s_after": [
+      0.0,
+      0.0
+    ],
+    "contacts": 0
+  },
+  "max_x": -2.82340282172877,
+  "contacts": []
+}

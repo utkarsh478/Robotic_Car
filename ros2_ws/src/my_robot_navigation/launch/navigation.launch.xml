@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- Nav2 on the saved map: map_server + AMCL (localization) and the navigation servers.
+     Uses Humble's nav2_bringup launch files with our generated params
+     (config/nav2_params.yaml, made by tools/make_nav2_params.py from the installed default).
+     AMCL owns map->odom here; never run it together with slam_toolbox (SPEC §4). -->
+<launch>
+  <arg name="map" default="$(find-pkg-share my_robot_navigation)/maps/mission_world.yaml"/>
+  <arg name="params_file" default="$(find-pkg-share my_robot_navigation)/config/nav2_params.yaml"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="autostart" default="true"/>
+
+  <include file="$(find-pkg-share nav2_bringup)/launch/localization_launch.py">
+    <arg name="map" value="$(var map)"/>
+    <arg name="params_file" value="$(var params_file)"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="autostart" value="$(var autostart)"/>
+  </include>
+
+  <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py">
+    <arg name="params_file" value="$(var params_file)"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="autostart" value="$(var autostart)"/>
+  </include>
+</launch>

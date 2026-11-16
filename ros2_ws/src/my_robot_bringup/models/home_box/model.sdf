@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- Green open-top box, outer 0.30 x 0.30 x 0.15, wall/floor 0.01. Model origin = centre of
+     the box bottom on the ground; inside floor surface at z 0.01. SPEC §8.2. -->
+<sdf version="1.8">
+  <model name="home_box">
+    <static>true</static>
+    <link name="link">
+      <collision name="floor_collision">
+        <pose>0 0 0.005 0 0 0</pose>
+        <geometry><box><size>0.3 0.3 0.01</size></box></geometry>
+      </collision>
+      <visual name="floor_visual">
+        <pose>0 0 0.005 0 0 0</pose>
+        <geometry><box><size>0.3 0.3 0.01</size></box></geometry>
+        <material><ambient>0.1 0.7 0.15 1</ambient><diffuse>0.1 0.7 0.15 1</diffuse></material>
+      </visual>
+      <collision name="wall_px_collision">
+        <pose>0.145 0 0.075 0 0 0</pose>
+        <geometry><box><size>0.01 0.3 0.15</size></box></geometry>
+      </collision>
+      <visual name="wall_px_visual">
+        <pose>0.145 0 0.075 0 0 0</pose>
+        <geometry><box><size>0.01 0.3 0.15</size></box></geometry>
+        <material><ambient>0.1 0.7 0.15 1</ambient><diffuse>0.1 0.7 0.15 1</diffuse></material>
+      </visual>
+      <collision name="wall_nx_collision">
+        <pose>-0.145 0 0.075 0 0 0</pose>
+        <geometry><box><size>0.01 0.3 0.15</size></box></geometry>
+      </collision>
+      <visual name="wall_nx_visual">
+        <pose>-0.145 0 0.075 0 0 0</pose>
+        <geometry><box><size>0.01 0.3 0.15</size></box></geometry>
+        <material><ambient>0.1 0.7 0.15 1</ambient><diffuse>0.1 0.7 0.15 1</diffuse></material>
+      </visual>
+      <collision name="wall_py_collision">
+        <pose>0 0.145 0.075 0 0 0</pose>
+        <geometry><box><size>0.28 0.01 0.15</size></box></geometry>
+      </collision>
+      <visual name="wall_py_visual">
+        <pose>0 0.145 0.075 0 0 0</pose>
+        <geometry><box><size>0.28 0.01 0.15</size></box></geometry>
+        <material><ambient>0.1 0.7 0.15 1</ambient><diffuse>0.1 0.7 0.15 1</diffuse></material>
+      </visual>
+      <collision name="wall_ny_collision">
+        <pose>0 -0.145 0.075 0 0 0</pose>
+        <geometry><box><size>0.28 0.01 0.15</size></box></geometry>
+      </collision>
+      <visual name="wall_ny_visual">
+        <pose>0 -0.145 0.075 0 0 0</pose>
+        <geometry><box><size>0.28 0.01 0.15</size></box></geometry>
+        <material><ambient>0.1 0.7 0.15 1</ambient><diffuse>0.1 0.7 0.15 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>
